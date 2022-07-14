@@ -45,6 +45,11 @@ add_library(mylibs
   src/Convert.cpp
   src/Vertex.cpp
   src/Edge.cpp
+  src/EdgeReprojectionPoseOnly.cpp
+  src/EdgeReprojectionXYZ.cpp
+  src/VertexPose.cpp
+  src/Optimizer.cpp
+  src/ProblemSolver.cpp
 )
 
 target_link_libraries(mylibs ${catkin_LIBRARIES} ${OpenCV_LIBS} ${Sophus_LIBRARIES})

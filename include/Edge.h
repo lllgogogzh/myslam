@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include "eigen_types.h"
+#include "Vertex.h"
 
 namespace GzhSLAM {
 

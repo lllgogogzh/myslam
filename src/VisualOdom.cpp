@@ -54,7 +54,7 @@ void VisualOdom::TrackRGBD(cv::Mat &colorImg,cv::Mat &depthImg,double t)
         FeatureMatch();
         RecoverDepth();
         TrackByPnP();
-        //Optimization();
+        Optimization();
         PubPoseOnce();
         mpPrevFrame = mpCurrentFrame;
         cv::waitKey(5);
@@ -255,7 +255,30 @@ void VisualOdom::PubPoseOnce()
 
 void VisualOdom::Optimization()
 {
+    Optimizer solver;
+    Eigen::Matrix4d T;
+    cv::cv2eigen(mTcw,T);
 
+    std::vector<Eigen::Vector2d> kpts;
+    std::vector<Eigen::Vector3d> ptsw;
+    for(int i=0;i<mvKeyPointsInCurFrame.size();i++)
+    {
+        Eigen::Vector2d k(mvKeyPointsInCurFrame[i].x,mvKeyPointsInCurFrame[i].y);
+        Eigen::Vector3d pw(mvPointsInWorld[i].x,mvPointsInWorld[i].y,mvPointsInWorld[i].z);
+
+        kpts.push_back(k);
+        ptsw.push_back(pw);
+    }
+    Eigen::Matrix4d eTcw;
+    bool isGoodPose;
+    isGoodPose = solver.OptimizePoseOnly(Optimizer::ONLYPOSE,T,kpts,ptsw,mpConverter->mK,eTcw);
+    cout<<eTcw<<endl;
+    if(isGoodPose)
+    {
+        cv::Mat Tcw_new;
+        cv::eigen2cv(eTcw,Tcw_new);
+        mTcw = Tcw_new.clone();
+    }
 }
 
 

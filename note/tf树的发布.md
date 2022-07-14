@@ -2,10 +2,6 @@
 
 
 
-
-
-
-
 ```c++
 void VisualOdom::PubPoseOnce()
 {

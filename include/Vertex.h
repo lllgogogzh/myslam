@@ -2,6 +2,8 @@
 #define GZHSLAM_VERTEX_H
 
 #include <eigen_types.h>
+#include <sophus/so3.h>
+#include <sophus/se3.h>
 
 namespace GzhSLAM {
 
@@ -42,7 +44,7 @@ public:
 
     /// 加法，可重定义
     /// 默认是向量加
-    virtual void Plus(const VecX &delta);
+    virtual void Plus(const VecX &delta)=0;
 
     /// 返回顶点的名称，在子类中实现
     virtual std::string TypeInfo() const = 0;
@@ -70,9 +72,10 @@ protected:
     unsigned long ordering_id_ = 0;
 
     bool fixed_ = false;    // 是否固定
+
 };
 
 
-}
 
+}
 #endif
