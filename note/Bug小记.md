@@ -24,3 +24,8 @@ Test::Test()
 }
 ```
 
+#### 2、invalid new-expression of abstract class type ‘class type’
+
+**原因：**出现这个错误原因是new 了一个抽象类出错，说明父类（接口）中有纯虚函数没有实现。接口里的纯虚函数全部需要实现，这样才能new 子类。
+
+**解决办法：**子类需要实现虚函数。
